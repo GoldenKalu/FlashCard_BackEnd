@@ -8,5 +8,9 @@ const collectionsSchema = new mongoose.Schema({
 
 const Collection = mongoose.model('Collection', collectionsSchema);
 
+module.exports = {
+    collectionSchema: collectionsSchema,
+    Collection: Collection
+}
 
 

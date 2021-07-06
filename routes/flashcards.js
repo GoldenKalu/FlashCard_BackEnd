@@ -1,4 +1,5 @@
 const { Flashcards, validate } = require('../models/flashcards');
+const {Collection} = require('../models/collections')
 const express = require('express');
 const router = express.Router();
 // All endpoints and route handlers go here
@@ -25,6 +26,26 @@ router.get('/:id', async (req, res) => {
         return res.status(500).send(`Internal Server Error: ${ex}`);
     }
 });
+
+// Route to POST a new collection
+
+router.post('/collection/', async (req, res) => {
+    try {
+       // TODO: define a validate function on the schema and call here
+        const collection = new Collection({
+            name: req.body.name,
+        });
+
+        await collection.save();
+
+        return res.send(collection);
+    } catch(ex) {
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+
+})
+
+// Route to GET that collection
 
 
 router.post('/', async (req, res) => {
@@ -53,7 +74,7 @@ router.put('/:id', async (req, res) => {
         if (error) return res.status(400).send(error);
 
         const flashcards = await Flashcards.findByIdAndUpdate(
-            req. params.id,
+            req.params.id,
             {
                 title: req.body.title,
                 description: req.body.description,
